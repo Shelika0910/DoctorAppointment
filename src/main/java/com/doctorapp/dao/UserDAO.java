@@ -16,6 +16,20 @@ public class UserDAO {
     public boolean registerUser(User user) {
         String query = "INSERT INTO users (username, email, password, phone, role) VALUES (?, ?, ?, ?, ?)";
 
+        System.out.println("Executing query: " + query);
+        System.out.println("With values: " + user.getUsername() + ", " + user.getEmail() + ", [PASSWORD], " + user.getPhone() + ", " + user.getRole());
+
+        try {
+            // Test database connection first
+            Connection testConn = DBConnection.getConnection();
+            System.out.println("Database connection successful");
+            testConn.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Database connection test failed: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
@@ -28,10 +42,13 @@ public class UserDAO {
             pstmt.setString(4, user.getPhone());
             pstmt.setString(5, user.getRole());
 
+            System.out.println("Executing prepared statement...");
             int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
             return rowsAffected > 0;
 
         } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error registering user: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -242,6 +259,7 @@ public class UserDAO {
             return rowsAffected > 0;
 
         } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error saving patient details: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -279,6 +297,7 @@ public class UserDAO {
             return rowsAffected > 0;
 
         } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error saving doctor details: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

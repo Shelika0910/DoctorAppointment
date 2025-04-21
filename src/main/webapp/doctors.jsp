@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Doctor" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,7 +194,7 @@
                 <div class="doctor-card">
                     <div class="doctor-status">Available Today</div>
                     <div class="doctor-img">
-                        <img src="<%= doctor.getImageUrl() != null && !doctor.getImageUrl().isEmpty() ? doctor.getImageUrl() : "images/doctors/doctor-placeholder.jpg" %>" alt="<%= doctor.getName() %>">
+                        <img src="<%= doctor.getImageUrl() != null && !doctor.getImageUrl().isEmpty() ? doctor.getImageUrl() : "${pageContext.request.contextPath}/assets/images/doctors/doctor-placeholder.jpg" %>" alt="<%= doctor.getName() %>">
                         <div class="doctor-rating">
                             <i class="fas fa-star"></i>
                             <span>4.8</span>

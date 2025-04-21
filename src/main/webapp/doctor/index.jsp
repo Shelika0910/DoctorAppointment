@@ -2,16 +2,17 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Patient" %>
 <%@ page import="model.Appointment" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard | HealthCare</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -26,7 +27,7 @@
                     <i class="fas fa-times"></i>
                 </div>
             </div>
-            
+
             <div class="sidebar-menu">
                 <ul>
                     <li class="active">
@@ -81,7 +82,7 @@
                 </ul>
             </div>
         </div>
-        
+
         <!-- Main Content -->
         <div class="dashboard-main">
             <!-- Top Navigation -->
@@ -89,29 +90,29 @@
                 <div class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </div>
-                
+
                 <div class="nav-right">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search patients...">
                     </div>
-                    
+
                     <div class="nav-notifications">
                         <div class="icon-badge">
                             <i class="fas fa-bell"></i>
                             <span class="badge">3</span>
                         </div>
                     </div>
-                    
+
                     <div class="nav-messages">
                         <div class="icon-badge">
                             <i class="fas fa-envelope"></i>
                             <span class="badge">5</span>
                         </div>
                     </div>
-                    
+
                     <div class="nav-user">
-                        <img src="../images/doctors/doctor1.jpg" alt="Doctor">
+                        <img src="${pageContext.request.contextPath}/assets/images/doctors/doctor1.jpg" alt="Doctor">
                         <div class="user-info">
                             <h4>Dr. John Smith</h4>
                             <p>Cardiologist</p>
@@ -119,21 +120,21 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <div class="page-header">
                     <h1>Doctor Dashboard</h1>
                     <p>Welcome back, Dr. John Smith</p>
                 </div>
-                
+
                 <!-- Today's Summary -->
                 <div class="today-summary">
                     <div class="summary-header">
                         <h3>Today's Summary</h3>
                         <p class="date">Monday, April 18, 2023</p>
                     </div>
-                    
+
                     <div class="stats-container">
                         <div class="stat-card">
                             <div class="stat-card-icon blue">
@@ -145,7 +146,7 @@
                                 <p><span class="positive"><i class="fas fa-arrow-up"></i> 2</span> from yesterday</p>
                             </div>
                         </div>
-                        
+
                         <div class="stat-card">
                             <div class="stat-card-icon green">
                                 <i class="fas fa-user-check"></i>
@@ -156,7 +157,7 @@
                                 <p>3 more to go</p>
                             </div>
                         </div>
-                        
+
                         <div class="stat-card">
                             <div class="stat-card-icon purple">
                                 <i class="fas fa-file-medical"></i>
@@ -167,7 +168,7 @@
                                 <p><span class="positive"><i class="fas fa-arrow-up"></i> 4</span> from yesterday</p>
                             </div>
                         </div>
-                        
+
                         <div class="stat-card">
                             <div class="stat-card-icon orange">
                                 <i class="fas fa-clock"></i>
@@ -180,14 +181,14 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Upcoming Appointments -->
                 <div class="upcoming-appointments">
                     <div class="section-header">
                         <h3>Upcoming Appointments</h3>
                         <a href="appointments.jsp" class="view-all">View All</a>
                     </div>
-                    
+
                     <div class="appointment-timeline">
                         <div class="timeline-item current">
                             <div class="timeline-time">
@@ -223,7 +224,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="timeline-item">
                             <div class="timeline-time">
                                 <h4>11:15 AM</h4>
@@ -258,7 +259,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="timeline-item">
                             <div class="timeline-time">
                                 <h4>1:30 PM</h4>
@@ -295,7 +296,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Charts and Patient Stats -->
                 <div class="charts-container">
                     <div class="chart-card">
@@ -313,7 +314,7 @@
                             <canvas id="appointmentChart"></canvas>
                         </div>
                     </div>
-                    
+
                     <div class="chart-card">
                         <div class="chart-header">
                             <h3>Patient Demographics</h3>
@@ -330,14 +331,14 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Recent Patients -->
                 <div class="recent-patients">
                     <div class="section-header">
                         <h3>Recent Patients</h3>
                         <a href="patients.jsp" class="view-all">View All</a>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -353,7 +354,7 @@
                                 <tr>
                                     <td>
                                         <div class="user-info">
-                                            <img src="../images/patients/patient1.jpg" alt="Patient">
+                                            <img src="${pageContext.request.contextPath}/assets/images/patients/patient1.jpg" alt="Patient">
                                             <div>
                                                 <h4>Robert Wilson</h4>
                                                 <p>42 years, Male</p>
@@ -374,7 +375,7 @@
                                 <tr>
                                     <td>
                                         <div class="user-info">
-                                            <img src="../images/patients/patient2.jpg" alt="Patient">
+                                            <img src="${pageContext.request.contextPath}/assets/images/patients/patient2.jpg" alt="Patient">
                                             <div>
                                                 <h4>Emily Parker</h4>
                                                 <p>35 years, Female</p>
@@ -395,7 +396,7 @@
                                 <tr>
                                     <td>
                                         <div class="user-info">
-                                            <img src="../images/patients/patient3.jpg" alt="Patient">
+                                            <img src="${pageContext.request.contextPath}/assets/images/patients/patient3.jpg" alt="Patient">
                                             <div>
                                                 <h4>David Thompson</h4>
                                                 <p>58 years, Male</p>
@@ -416,7 +417,7 @@
                                 <tr>
                                     <td>
                                         <div class="user-info">
-                                            <img src="../images/patients/patient4.jpg" alt="Patient">
+                                            <img src="${pageContext.request.contextPath}/assets/images/patients/patient4.jpg" alt="Patient">
                                             <div>
                                                 <h4>Jennifer Adams</h4>
                                                 <p>29 years, Female</p>
@@ -439,7 +440,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Footer -->
             <div class="dashboard-footer">
                 <p>&copy; 2023 HealthCare. All Rights Reserved.</p>
@@ -447,18 +448,18 @@
             </div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Toggle sidebar on mobile
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.querySelector('.dashboard-sidebar').classList.toggle('active');
         });
-        
+
         document.getElementById('sidebarClose').addEventListener('click', function() {
             document.querySelector('.dashboard-sidebar').classList.remove('active');
         });
-        
+
         // Charts
         const appointmentCtx = document.getElementById('appointmentChart').getContext('2d');
         const appointmentChart = new Chart(appointmentCtx, {
@@ -499,7 +500,7 @@
                 }
             }
         });
-        
+
         const demographicsCtx = document.getElementById('demographicsChart').getContext('2d');
         const demographicsChart = new Chart(demographicsCtx, {
             type: 'doughnut',

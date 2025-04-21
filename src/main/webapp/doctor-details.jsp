@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.Doctor" %>
 <%@ page import="model.User" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
     <title>Doctor Details - Doctor Appointment System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
 <body>
     <!-- Header -->
@@ -57,7 +58,7 @@
 
             <div class="doctor-details">
                 <div class="doctor-profile-img">
-                    <img src="../<%= doctor.getImageUrl() != null && !doctor.getImageUrl().isEmpty() ? doctor.getImageUrl() : "images/doctor-placeholder.jpg" %>" alt="<%= doctor.getName() %>">
+                    <img src="${pageContext.request.contextPath}/<%= doctor.getImageUrl() != null && !doctor.getImageUrl().isEmpty() ? doctor.getImageUrl() : "assets/images/doctors/doctor-placeholder.jpg" %>" alt="<%= doctor.getName() %>">
 
                     <!-- Doctor Rating -->
                     <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(255, 255, 255, 0.9); padding: 0.5rem 1rem; border-radius: 50px; display: flex; align-items: center; z-index: 2;">
@@ -262,6 +263,6 @@
         </div>
     </footer>
 
-    <script src="../js/script.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
 </body>
 </html>

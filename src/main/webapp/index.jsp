@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +22,7 @@
                     <li><a href="#services">Services</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <% if(session.getAttribute("user") != null) { %>
+                        <li><a href="dashboard">Dashboard</a></li>
                         <li><a href="appointments">Appointments</a></li>
                         <li><a href="profile">Profile</a></li>
                         <li><a href="logout" class="btn btn-primary">Logout</a></li>

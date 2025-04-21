@@ -38,6 +38,7 @@ public class DatabaseInitializer {
                     username VARCHAR(50) NOT NULL UNIQUE,
                     email VARCHAR(100) NOT NULL UNIQUE,
                     password VARCHAR(100) NOT NULL,
+                    phone VARCHAR(20),
                     role VARCHAR(20) NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
@@ -90,11 +91,11 @@ public class DatabaseInitializer {
                     medical_report TEXT
                 );
                 -- Add test users for each role
-                INSERT IGNORE INTO users (username, email, password, role)
+                INSERT IGNORE INTO users (username, email, password, phone, role)
                 VALUES
-                ('Admin User', 'admin@example.com', 'YWRtaW4xMjM=', 'ADMIN'),
-                ('Doctor User', 'doctor@example.com', 'ZG9jdG9yMTIz', 'DOCTOR'),
-                ('Patient User', 'patient@example.com', 'cGF0aWVudDEyMw==', 'PATIENT');
+                ('Admin User', 'admin@example.com', 'YWRtaW4xMjM=', '1234567890', 'ADMIN'),
+                ('Doctor User', 'doctor@example.com', 'ZG9jdG9yMTIz', '2345678901', 'DOCTOR'),
+                ('Patient User', 'patient@example.com', 'cGF0aWVudDEyMw==', '3456789012', 'PATIENT');
                 -- Add test doctor
                 INSERT IGNORE INTO doctors (user_id, name, first_name, last_name, specialization, qualification, experience, email, phone, address, consultation_fee, available_days, available_time, image_url)
                 SELECT
