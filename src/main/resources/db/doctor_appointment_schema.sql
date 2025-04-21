@@ -1,117 +1,116 @@
+-- Doctor Appointment System Database Schema
+-- This file contains the complete database schema for the Doctor Appointment System
+
+-- Create the database
 CREATE DATABASE IF NOT EXISTS doctor_appointment;
 USE doctor_appointment;
 
 -- Users table
-CREATE TABLE users (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
-  role VARCHAR(20) NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+  password VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  role ENUM('ADMIN', 'DOCTOR', 'PATIENT') NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Patients table
-CREATE TABLE patients (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  user_id BIGINT(20) NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL,
-  date_of_birth DATE NOT NULL,
-  gender VARCHAR(10) NOT NULL,
-  phone VARCHAR(20) NOT NULL,
-  address TEXT NOT NULL,
-  blood_group VARCHAR(5),
+CREATE TABLE IF NOT EXISTS patients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  date_of_birth DATE,
+  gender ENUM('Male', 'Female', 'Other'),
+  phone VARCHAR(20),
+  address TEXT,
+  blood_group VARCHAR(10),
   allergies TEXT,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Doctors table
-CREATE TABLE doctors (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  user_id BIGINT(20) NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS doctors (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
   specialization VARCHAR(100) NOT NULL,
   qualification VARCHAR(255) NOT NULL,
-  experience INT(11) NOT NULL,
-  phone VARCHAR(20) NOT NULL,
+  experience INT NOT NULL,
+  phone VARCHAR(20),
   address TEXT NOT NULL,
   bio TEXT,
   profile_image VARCHAR(255),
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
+  consultation_fee DECIMAL(10, 2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Appointments table
-CREATE TABLE appointments (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  patient_id BIGINT(20) NOT NULL,
-  doctor_id BIGINT(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS appointments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
   appointment_date DATE NOT NULL,
-  start_time TIME NOT NULL,
-  end_time TIME NOT NULL,
-  status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+  appointment_time TIME NOT NULL,
+  status ENUM('PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED') DEFAULT 'PENDING',
   reason TEXT,
   notes TEXT,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
+);
+
+-- Doctor Schedule table
+CREATE TABLE IF NOT EXISTS doctor_schedule (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  doctor_id INT NOT NULL,
+  day_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
+);
+
+-- Reviews table
+CREATE TABLE IF NOT EXISTS reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
   FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
 );
 
 -- Medical Records table
-CREATE TABLE medical_records (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  patient_id BIGINT(20) NOT NULL,
-  doctor_id BIGINT(20) NOT NULL,
-  appointment_id BIGINT(20),
-  diagnosis TEXT NOT NULL,
-  prescription TEXT,
-  notes TEXT,
+CREATE TABLE IF NOT EXISTS medical_records (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
   record_date DATE NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
+  diagnosis TEXT NOT NULL,
+  treatment TEXT,
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-  FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE,
-  FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE SET NULL
-);
-
--- Reviews table
-CREATE TABLE reviews (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  patient_id BIGINT(20) NOT NULL,
-  doctor_id BIGINT(20) NOT NULL,
-  appointment_id BIGINT(20),
-  rating INT(11) NOT NULL,
-  comment TEXT,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-  FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE,
-  FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE SET NULL
-);
-
--- Time Slots table
-CREATE TABLE time_slots (
-  id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  doctor_id BIGINT(20) NOT NULL,
-  day_of_week VARCHAR(10) NOT NULL,
-  start_time TIME NOT NULL,
-  end_time TIME NOT NULL,
-  is_available TINYINT(1) DEFAULT 1,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
   FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
 );
+
+-- Insert admin user for initial login
+INSERT INTO users (username, email, password, phone, role)
+SELECT 'Admin', 'admin@example.com', 'admin123', '9876543210', 'ADMIN'
+FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@example.com');

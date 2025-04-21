@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
+    
 </head>
 <body>
     <div class="dashboard-container">
@@ -25,8 +26,9 @@
             </div>
             
             <div class="logout-btn">
-                <a href="logout">Log out</a>
+                <a href="${pageContext.request.contextPath}/logout">Log out</a>
             </div>
+            
             
             <ul class="sidebar-menu">
                 <li class="active">
